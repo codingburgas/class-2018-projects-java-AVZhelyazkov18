@@ -4,6 +4,8 @@ import com.microsoft.sqlserver.jdbc.SQLServerConnection;
 import com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement;
 import controllers.UserController;
 import repositories.UserRepository;
+import services.ActionService;
+import services.FileService;
 import services.UserService;
 import utils.ApplicationProperties;
 
@@ -21,10 +23,14 @@ public class App {
 
         // Displaying users from a database
         //controller.displayUsersWithLongUsernames();
+        FileService.getUsersProjectRootDirectory();
+
+        FileService.findCookieFile();
+
         try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL);) {
             System.out.println("Established a connection between SSMS and JDBC.");
 
-
+            ActionService.askUserAction();
         } catch(SQLException e) {
             e.printStackTrace();
         }

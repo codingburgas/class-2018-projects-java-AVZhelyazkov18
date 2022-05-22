@@ -18,24 +18,33 @@ public class ActionService {
 
             if(chosenNumber == 1) {
                 registerUser();
-            } else {
+            } else if(chosenNumber == 2) {
                 loginUser();
+            } else if(chosenNumber == -1){
+                ConsoleUtils.writeConsoleLine("Please Enter A Valid Option.");
+                ConsoleUtils.writeConsoleLine("");
             }
         } while(chosenNumber != 0);
 
     }
 
-    public static void registerUser() {
-        ConsoleUtils.clearConsole();
-
+    private static void registerUser() {
         String userName = ConsoleUtils.stringInput("Username: ");
         String userEmail = ConsoleUtils.stringInput("Email: ");
         String userPassword = ConsoleUtils.stringInput("Password: ");
 
-        UserRepository.checkIfUserNameAlreadyExists(userName);
+        if(UserRepository.checkIfUserNameAlreadyExists(userName)) {
+            ConsoleUtils.writeConsoleLine("The username has already been taken. Please write another username.");
+        } else {
+            boolean isCreated = UserRepository.addUserToUserTable(userName, userEmail, userPassword);
+            if(isCreated)
+                ConsoleUtils.writeConsoleLine("User has been saved.");
+            else
+                ConsoleUtils.writeConsoleLine("User could not be saved.");
+        }
     }
 
-    public static void loginUser() {
+    private static void loginUser() {
 
     }
 }

@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleUtils {
@@ -10,16 +11,15 @@ public class ConsoleUtils {
     }
     
     public static String readConsoleLine() { return scanner.nextLine(); }
-    public static Integer readConsoleInt() { return scanner.nextInt(); }
-    public static String readConsoleNext() { return scanner.next(); }
-
-    public static void clearConsole() {
+    public static Integer readConsoleInt() {
         try {
-            Runtime.getRuntime().exec("cls");
-        } catch(Exception e) {
-            System.out.println("Couldn't clear screen. Please contact the developers of the app.");
+            return scanner.nextInt();
+        } catch(InputMismatchException e) {
+            return -1;
         }
     }
+    public static String readConsoleNext() { return scanner.next(); }
+
     public static String stringInput(String messageBeforeInput) {
         System.out.print(messageBeforeInput);
         return readConsoleNext();

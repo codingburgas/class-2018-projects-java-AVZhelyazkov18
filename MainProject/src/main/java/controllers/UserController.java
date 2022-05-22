@@ -20,6 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    /*
     public void displayUsersWithLongUsernames() {
         // 1. Get users with long usernames
         String someDataFromDatabase = userService.getUsersWithLongUsername();
@@ -31,4 +32,5 @@ public class UserController {
         final String name = ConsoleUtils.readConsoleLine();
         ConsoleUtils.writeConsoleLine("Your name is:" + name);
     }
+    */
 }
