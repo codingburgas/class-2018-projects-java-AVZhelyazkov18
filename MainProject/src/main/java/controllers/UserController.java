@@ -2,13 +2,14 @@ package controllers;
 
 import services.UserService;
 import utils.ConsoleUtils;
-
+import static services.ActionService.*;
 /*
     Layer #1: Data Presentation
 */
 public class UserController {
 
     private UserService userService;
+
     /*
       Dependency injection pattern, see:
       https://www.vogella.com/tutorials/DependencyInjection/article.html#:~:text=Dependency%20injection%20(DI)%20is%20the,an%20instance%20of%20this%20class
@@ -33,4 +34,66 @@ public class UserController {
         ConsoleUtils.writeConsoleLine("Your name is:" + name);
     }
     */
+
+    public static void askUserAction() {
+        int chosenOption = 0;
+        do {
+            if(UserService.getCurrentLoggedInUser() != null) {
+                registeredUserMessage();
+            } else {
+                nonRegisteredUserMessage();
+            }
+
+            chosenOption = ConsoleUtils.readConsoleInt();
+
+            if(UserService.getCurrentLoggedInUser() != null) {
+                ifUserRegistered(chosenOption);
+            } else {
+                ifUserNotRegistered(chosenOption);
+            }
+
+        } while(chosenOption != 0);
+    }
+
+    private static void nonRegisteredUserMessage() {
+        ConsoleUtils.writeConsoleLine("| Client Side |");
+        ConsoleUtils.writeConsoleLine("Would you like to register or login?");
+        ConsoleUtils.writeConsoleLine("1. Register");
+        ConsoleUtils.writeConsoleLine("2. Login");
+        ConsoleUtils.writeConsoleLine("0. Exit");
+    }
+    private static void registeredUserMessage() {
+        ConsoleUtils.writeConsoleLine("Please choose an option.");
+        ConsoleUtils.writeConsoleLine("1. Check Forums");
+        ConsoleUtils.writeConsoleLine("2. Log Out");
+        ConsoleUtils.writeConsoleLine("0. Exit");
+    }
+
+    private static void ifUserRegistered(Integer chosenOption) {
+        do {
+            if (chosenOption == 1) {
+
+            } else if (chosenOption == 2) {
+                logOut();
+            } else if (chosenOption == -1) {
+                ConsoleUtils.writeConsoleLine("Please Enter A Valid Option.");
+                ConsoleUtils.writeConsoleLine("");
+            }
+        } while (chosenOption != 0);
+        return;
+    }
+
+    private static void ifUserNotRegistered(Integer chosenOption) {
+        do {
+            if (chosenOption == 1) {
+                registerUser();
+            } else if (chosenOption == 2) {
+                loginUser();
+            } else if (chosenOption == -1) {
+                ConsoleUtils.writeConsoleLine("Please Enter A Valid Option.");
+                ConsoleUtils.writeConsoleLine("");
+            }
+        } while (chosenOption != 0);
+        return;
+    }
 }

@@ -1,34 +1,17 @@
 package services;
 
+import main.App;
 import repositories.UserRepository;
+import repositories.models.User;
 import utils.ConsoleUtils;
+import utils.SQLUtils;
+
+import java.sql.SQLException;
 
 public class ActionService {
-    public static void askUserAction() {
-        int chosenNumber = -1;
 
-        do {
-            ConsoleUtils.writeConsoleLine("| Client Side |");
-            ConsoleUtils.writeConsoleLine("Would you like to register or login?");
-            ConsoleUtils.writeConsoleLine("1. Register");
-            ConsoleUtils.writeConsoleLine("2. Login");
-            ConsoleUtils.writeConsoleLine("0. Exit");
 
-            chosenNumber = ConsoleUtils.readConsoleInt();
-
-            if(chosenNumber == 1) {
-                registerUser();
-            } else if(chosenNumber == 2) {
-                loginUser();
-            } else if(chosenNumber == -1){
-                ConsoleUtils.writeConsoleLine("Please Enter A Valid Option.");
-                ConsoleUtils.writeConsoleLine("");
-            }
-        } while(chosenNumber != 0);
-
-    }
-
-    private static void registerUser() {
+    public static void registerUser() {
         String userName = ConsoleUtils.stringInput("Username: ");
         String userEmail = ConsoleUtils.stringInput("Email: ");
         String userPassword = ConsoleUtils.stringInput("Password: ");
@@ -44,7 +27,31 @@ public class ActionService {
         }
     }
 
-    private static void loginUser() {
+    public static void loginUser() {
+        String firstInput = ConsoleUtils.stringInput("Please enter your username: ");
+        String secondInput = ConsoleUtils.stringInput("Please enter your password: ");
 
+        try {
+            User newUser = UserRepository.loginUser(firstInput, secondInput);
+
+            if(newUser != null) {
+                if(UserService.getCurrentLoggedInUser() != null)
+                    UserService.getCurrentLoggedInUser().removeUser();
+                UserService.setCurrentLoggedInUser(newUser);
+
+                ConsoleUtils.writeConsoleLine("Welcome " + newUser.getUsername() + "!");
+            } else {
+                ConsoleUtils.writeConsoleLine("Couldn't fetch account data. Username or password might be wrong. Please try again.\n");
+            }
+        } catch (SQLException sqlException) {
+            ConsoleUtils.writeConsoleLine("There was a problem with the server request. Please contact an administrator if the problem persists.");
+            sqlException.printStackTrace();
+        }
+    }
+
+    public static void logOut() {
+        if(UserService.getCurrentLoggedInUser() != null)
+            UserService.getCurrentLoggedInUser().removeUser();
+        UserService.setCurrentLoggedInUser(null);
     }
 }

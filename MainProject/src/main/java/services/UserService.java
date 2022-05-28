@@ -23,5 +23,11 @@ public class UserService {
         //return users.toString();
     //}
 
+    private static User currentLoggedUser = null;
 
+    public static User getCurrentLoggedInUser() { return currentLoggedUser; }
+    public static void setCurrentLoggedInUser(User newUser) { currentLoggedUser = newUser; }
 }
+
+
+

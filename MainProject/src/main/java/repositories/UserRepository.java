@@ -18,8 +18,8 @@ public class UserRepository {
             ps.setString(1, userName);
 
             ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
-            if(resultSet.getInt(resultSet.getRow()) > 0) {
+            //resultSet.next();
+            if (resultSet.getInt(resultSet.getRow()) > 0) {
                 return true;
             }
             return false;
@@ -35,7 +35,7 @@ public class UserRepository {
 
         String query = "INSERT INTO [ProjectDB].[dbo].[User] (UserId , Username, Password, UserEmail) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)){
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)) {
             PreparedStatement preparedStatement = conn.prepareStatement(query);
 
             preparedStatement.setInt(1, lastUserId);
@@ -46,10 +46,29 @@ public class UserRepository {
             preparedStatement.executeUpdate();
 
             return true;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return false;
+    }
+
+    public static User loginUser(String username, String password) throws SQLException {
+        String query = "SELECT UserId FROM [ProjectDB].[dbo].[User] WHERE Username = ? AND Password = ?";
+
+        Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL);
+
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, username);
+        ps.setString(2, password);
+
+        ResultSet resultSet = ps.executeQuery();
+        resultSet.next();
+
+        try {
+            int result = resultSet.getInt(resultSet.getRow());
+            return new User(result, username, password);
+        } catch (SQLException e) {}
+        return null;
     }
 }
