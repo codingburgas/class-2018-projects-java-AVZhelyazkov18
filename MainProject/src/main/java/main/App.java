@@ -1,11 +1,13 @@
 package main;
 
 import controllers.UserController;
+import repositories.TopicRepository;
 import repositories.UserRepository;
 import repositories.models.User;
 import services.ActionService;
 import services.FileService;
 import utils.ApplicationProperties;
+import utils.StringUtils;
 
 import java.sql.*;
 
@@ -14,6 +16,10 @@ public class App {
     public static void main(String... args) {
         // Initialization Method
         App.mainInitialization();
+
+        StringUtils.sub("HelloWorld!", 0, 5, false);
+        StringUtils.sub("HelloWorld!", 0, 20, true);
+
 
         try (Connection conn = DriverManager.getConnection(ApplicationProperties.MAINURL);) {
             UserController.askUserAction();
