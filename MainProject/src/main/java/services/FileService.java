@@ -1,11 +1,13 @@
 package services;
 
+import repositories.UserRepository;
+import repositories.models.User;
 import utils.ConsoleUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 
 public class FileService {
     private static File cookieFile;
@@ -15,7 +17,7 @@ public class FileService {
             File myObj = new File(getUsersProjectRootDirectory().toString() + "\\cookie.txt");
             myObj.createNewFile();
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            ConsoleUtils.writeConsoleLine("An error occurred.");
             e.printStackTrace();
         }
     }
@@ -40,5 +42,39 @@ public class FileService {
         } else {
             createFile();
         }
+    }
+
+    public static void loadUser() {
+        String path = getUsersProjectRootDirectory().toString() + "\\cookie.txt";
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+
+            String[] words = br.readLine().split(";");
+            words[0].trim();
+            words[1].trim();
+
+            if (words[0] != "" && words[1] != "")
+                UserService.setCurrentLoggedInUser(UserRepository.loginUser(words[0], words[1]));
+
+            br.close();
+        } catch (Exception e) {}
+    }
+
+    public static void saveUser() {
+        if(UserService.getCurrentLoggedInUser() == null) return;
+
+        User user = UserService.getCurrentLoggedInUser();
+
+        String saveString = user.getUsername() + ";" + user.getPassword();
+
+        String path = getUsersProjectRootDirectory().toString() + "\\cookie.txt";
+
+        try {
+            BufferedWriter br = new BufferedWriter(new FileWriter(path));
+
+            br.write(saveString);
+            br.close();
+        } catch (Exception e) {}
     }
 }
