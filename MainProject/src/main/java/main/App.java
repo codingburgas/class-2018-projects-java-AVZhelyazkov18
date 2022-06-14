@@ -11,11 +11,14 @@ public class App {
     public static void main(String... args) {
         UserController.welcomeMessage();
         FileService.findCookieFile();
+        FileService.loadUser();
 
         try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL);) {
             UserController.askUserAction();
         } catch(SQLException e) {
             e.printStackTrace();
         }
+
+        FileService.saveUser();
     }
 }

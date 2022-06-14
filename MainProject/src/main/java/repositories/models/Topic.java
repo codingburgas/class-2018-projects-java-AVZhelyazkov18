@@ -1,31 +1,43 @@
 package repositories.models;
 
-import java.sql.Date;
+import services.UserService;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class Topic {
-    private Integer ForumId;
-    private String ForumTitle;
-    private Date CreationDate;
+    private Integer topicId;
+    private String topicTitle;
+    private LocalDate topicCreationDate;
     private Boolean solved;
     private String pageCreatedFrom;
+    private String topicDescription;
 
-    public Topic(Integer forumId, String forumTitle, Date creationDate, Boolean solved) {
-        ForumId = forumId;
-        ForumTitle = forumTitle;
-        CreationDate = creationDate;
+    public Topic(Integer forumId, String forumTitle, LocalDate creationDate, Boolean solved) {
+        topicTitle = forumTitle;
+        topicCreationDate = creationDate;
         this.solved = solved;
+        this.topicId = forumId;
     }
 
-    public Integer getForumId() {
-        return ForumId;
+    public Topic(String title, String description) {
+        this.topicTitle = title;
+        this.topicDescription = description;
+        this.pageCreatedFrom = UserService.getCurrentLoggedInUser().getUsername();
+        this.solved = false;
+        this.topicCreationDate = LocalDate.now();
     }
 
-    public String getForumTitle() {
-        return ForumTitle;
+    public Integer getTopicId() {
+        return topicId;
     }
 
-    public Date getCreationDate() {
-        return CreationDate;
+    public String getTopicTitle() {
+        return topicTitle;
+    }
+
+    public LocalDate getTopicCreationDate() {
+        return topicCreationDate;
     }
 
     public Boolean getSolved() {
@@ -34,5 +46,9 @@ public class Topic {
 
     public String getPageCreatedFrom() {
         return pageCreatedFrom;
+    }
+
+    public String getTopicDescription() {
+        return topicDescription;
     }
 }

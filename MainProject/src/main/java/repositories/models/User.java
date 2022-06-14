@@ -7,11 +7,14 @@ public class User {
     private String username;
     private String password;
 
+    private String email;
+
     // Constructor
-    public User(int userId, String username, String password) {
+    public User(int userId, String username, String password, String userEmail) {
         this.userId = userId;
         this.username = username;
         this.password = password;
+        this.email = userEmail;
     }
 
     // Getters and Setters
@@ -19,24 +22,16 @@ public class User {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getEmail() {
+        return email;
     }
 
     @Override
@@ -45,11 +40,6 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(userId, user.userId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId);
     }
 
     @Override

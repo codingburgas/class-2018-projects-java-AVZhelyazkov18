@@ -2,9 +2,7 @@ package controllers;
 
 import services.TopicService;
 import services.UserService;
-import services.UserService.*;
 import utils.ConsoleUtils;
-
 import static services.UserService.*;
 
 /*
@@ -66,13 +64,12 @@ public class UserController {
 
     private static void ifUserRegistered(Integer chosenOption) {
         if (chosenOption == 1) {
-            TopicService.getMainTopicsList();
+            TopicController.askUserTopicAction();
         } else if (chosenOption == 2) {
             logOut();
         } else if (chosenOption == -1) {
             ConsoleUtils.writeConsoleLine("Please Enter A Valid Option.");
         }
-        return;
     }
 
     private static void ifUserNotRegistered(Integer chosenOption) {

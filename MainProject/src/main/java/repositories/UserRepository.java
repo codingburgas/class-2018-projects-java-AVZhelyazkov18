@@ -5,6 +5,7 @@ import java.sql.*;
 import repositories.models.User;
 import utils.ApplicationProperties;
 import utils.SQLUtils;
+import utils.ConsoleUtils;
 
 /*
     Layer #3: Data Access
@@ -12,7 +13,7 @@ import utils.SQLUtils;
 public class UserRepository {
     public static boolean checkIfUserNameAlreadyExists(String userName) {
         String query = "SELECT COUNT(*) FROM [ProjectDB].[dbo].[User] WHERE Username = ?";
-        try (Connection conn = DriverManager.getConnection(ApplicationProperties.MAINURL);
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL);
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, userName);
 
@@ -36,7 +37,7 @@ public class UserRepository {
 
         String query = "INSERT INTO [ProjectDB].[dbo].[User] (UserId , Username, Password, UserEmail) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(ApplicationProperties.MAINURL)) {
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)) {
             PreparedStatement preparedStatement = conn.prepareStatement(query);
 
             preparedStatement.setInt(1, lastUserId);
@@ -55,7 +56,7 @@ public class UserRepository {
     }
 
     public static User loginUser(String username, String password) throws SQLException {
-        String query = "SELECT UserId FROM [ProjectDB].[dbo].[User] WHERE Username = ? AND Password = ?";
+        String query = "SELECT * FROM [ProjectDB].[dbo].[User] WHERE Username = ? AND Password = ?";
 
         Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL);
 
@@ -67,8 +68,7 @@ public class UserRepository {
         resultSet.next();
 
         try {
-            int result = resultSet.getInt(resultSet.getRow());
-            return new User(result, username, password);
+            return new User(resultSet.getInt("UserId"), resultSet.getString("Username"), resultSet.getString("Password"), resultSet.getString("UserEmail"));
         } catch (SQLException e) {}
         return null;
     }

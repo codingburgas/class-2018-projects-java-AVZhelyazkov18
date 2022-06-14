@@ -1,9 +1,6 @@
 package services;
 
 import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import repositories.UserRepository;
 import repositories.models.User;
 import utils.ConsoleUtils;
