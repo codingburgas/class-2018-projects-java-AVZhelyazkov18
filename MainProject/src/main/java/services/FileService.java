@@ -23,11 +23,10 @@ public class FileService {
     public static Path getUsersProjectRootDirectory() {
         String envRootDir = System.getProperty("user.dir");
         Path rootDir = Paths.get(".").normalize().toAbsolutePath();
-        if (rootDir.startsWith(envRootDir)) {
+        if (rootDir.startsWith(envRootDir))
             return rootDir;
-        } else {
+        else
             throw new RuntimeException("Root dir not found in user directory.");
-        }
     }
 
     public static void findCookieFile() {
@@ -36,9 +35,7 @@ public class FileService {
         File newFile = new File(path);
         if(newFile.exists()) {
             cookieFile = newFile.getAbsoluteFile();
-            newFile = null;
-        } else {
+        } else
             createFile();
-        }
     }
 }

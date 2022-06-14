@@ -1,9 +1,10 @@
 package controllers;
 
 import services.UserService;
+import services.UserService.*;
 import utils.ConsoleUtils;
 
-import static services.ActionService.*;
+import static services.UserService.*;
 
 /*
     Layer #1: Data Presentation
@@ -22,20 +23,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    /*
-    public void displayUsersWithLongUsernames() {
-        // 1. Get users with long usernames
-        String someDataFromDatabase = userService.getUsersWithLongUsername();
-        // 2. Display the list of users in console
-        ConsoleUtils.writeConsoleLine("Displaying data from database: " + someDataFromDatabase);
-
-        // 3. Ask User for console input
-        ConsoleUtils.writeConsoleLine("Write your name:");
-        final String name = ConsoleUtils.readConsoleLine();
-        ConsoleUtils.writeConsoleLine("Your name is:" + name);
-    }
-    */
 
     public static void askUserAction() {
         int chosenOption = 0;
@@ -57,7 +44,7 @@ public class UserController {
         } while (chosenOption != 0);
     }
 
-    private static void welcomeMessage() {
+    public static void welcomeMessage() {
         ConsoleUtils.writeConsoleLine("NOTE: This is just a CLI Application which intends to show a replica of the functions on how the website would work in the future.");
         ConsoleUtils.writeConsoleLine("Everything shown in the application would be directly applied onto the website that is worked on and will be done in the future.");
     }
