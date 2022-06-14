@@ -5,7 +5,7 @@ import java.sql.*;
 public class SQLUtils {
 
     public static int countDataAmountFromTable(String tableName, String... dataArgTypesToBeCounted) {
-        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)) {
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.MAINURL)) {
             String query = "SELECT COUNT(*) FROM [ProjectDB].[dbo].[" + tableName + "]";
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
