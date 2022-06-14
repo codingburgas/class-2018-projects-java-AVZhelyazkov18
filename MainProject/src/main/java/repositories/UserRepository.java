@@ -57,7 +57,7 @@ public class UserRepository {
     public static User loginUser(String username, String password) throws SQLException {
         String query = "SELECT UserId FROM [ProjectDB].[dbo].[User] WHERE Username = ? AND Password = ?";
 
-        Connection conn = DriverManager.getConnection(ApplicationProperties.MAINURL);
+        Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL);
 
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setString(1, username);

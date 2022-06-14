@@ -17,7 +17,7 @@ public class TopicRepository {
 
         Topic[] topics = new Topic[3];
         int currentTopic = 0;
-        try (Connection conn = DriverManager.getConnection(ApplicationProperties.MAINURL)) {
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)) {
             Statement stmt = conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(query);
