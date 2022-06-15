@@ -85,7 +85,7 @@
 ## <p align=center><img src="https://www.pinclipart.com/picdir/middle/327-3277775_service-catalog-academic-technologies-transparent-background-e-waste.png" width="25" height="25" /> Използвани технологии <img src="https://www.pinclipart.com/picdir/middle/327-3277775_service-catalog-academic-technologies-transparent-background-e-waste.png" width="26" height="26" /></p>
 
 
-
+- <img src="[https://brandslogos.com/wp-content/uploads/images/eclipse-logo-vector.svg?width=541&height=541](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/IntelliJ_IDEA_Icon.svg/1024px-IntelliJ_IDEA_Icon.svg.png)" width="20"> Intellij Idea
 - <img src="https://brandslogos.com/wp-content/uploads/images/eclipse-logo-vector.svg?width=541&height=541" width="20"> Eclipse
 - <img src="https://media.discordapp.net/attachments/815253581149896790/818134368848969728/1043px-Microsoft_Excel_2013_logo.svg_.png?width=551&height=541" width="20"> Excel
 - <img src="https://www.wizcase.com/wp-content/uploads/2020/01/Microsoft-Word-Logo.png" width="20"> Word
