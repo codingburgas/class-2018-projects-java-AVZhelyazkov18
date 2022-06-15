@@ -88,5 +88,5 @@
 - <img src="https://media.discordapp.net/attachments/815253581149896790/818134368848969728/1043px-Microsoft_Excel_2013_logo.svg_.png?width=551&height=541" width="20"> Excel
 - <img src="https://www.wizcase.com/wp-content/uploads/2020/01/Microsoft-Word-Logo.png" width="20"> Word
 - <img src="https://media.discordapp.net/attachments/815253581149896790/818136011359518780/kisspng-microsoft-powerpoint-computer-software-microsoft-o-5b3b3927c75c49.3318087715306079118166-rem.png" width="20"> PowerPoint
-- Като език за програмиране използвахме: Java
+- Проектът е написан на Java.
 ***
