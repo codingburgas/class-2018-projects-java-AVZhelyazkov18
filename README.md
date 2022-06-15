@@ -30,11 +30,11 @@
 
 
 Можете да видите нашата презентация от тук:
---[PRESENTATION](https://codingburgas-my.sharepoint.com/:p:/g/personal/rvvelichkova18_codingburgas_bg/EcxcLbWhpI1JrDmazq2zZ0EBQJ-2dhrMcd2XEBnpGj56ow?e=rGA0wm)
+--[PRESENTATION](https://github.com/codingburgas/class-2018-projects-java-TDBozhinov18/tree/main/Documents/Presentation)
 
 
 Можете да видите нашата документация от тук:
---[DOCUMENTATION](https://codingburgas-my.sharepoint.com/:p:/g/personal/rvvelichkova18_codingburgas_bg/EcxcLbWhpI1JrDmazq2zZ0EBQJ-2dhrMcd2XEBnpGj56ow?e=rGA0wm)
+--[DOCUMENTATION](https://github.com/codingburgas/class-2018-projects-java-TDBozhinov18/tree/main/Documents/Documentation)
 
 
 ---
