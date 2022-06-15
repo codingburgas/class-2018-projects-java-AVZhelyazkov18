@@ -33,10 +33,8 @@
 --[PRESENTATION](https://codingburgas-my.sharepoint.com/:p:/g/personal/rvvelichkova18_codingburgas_bg/EcxcLbWhpI1JrDmazq2zZ0EBQJ-2dhrMcd2XEBnpGj56ow?e=rGA0wm)
 
 
-
 Можете да видите нашата документация от тук:
 --[DOCUMENTATION](https://codingburgas-my.sharepoint.com/:p:/g/personal/rvvelichkova18_codingburgas_bg/EcxcLbWhpI1JrDmazq2zZ0EBQJ-2dhrMcd2XEBnpGj56ow?e=rGA0wm)
-
 
 
 ---
