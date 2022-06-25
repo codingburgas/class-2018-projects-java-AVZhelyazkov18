@@ -11,16 +11,47 @@ import utils.ConsoleUtils;
     Layer #3: Data Access
 */
 public class UserRepository {
+    public static User getUserFromUsername(String userName) {
+        String getUserQuery = "SELECT * FROM [ProjectDB].[dbo].[User] WHERE Username = ?";
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL); PreparedStatement ps = conn.prepareStatement(getUserQuery)) {
+            ps.setString(1, userName);
+
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            try {
+                return new User(resultSet.getInt("UserId"), resultSet.getString("Username"), resultSet.getString("Password"), resultSet.getString("UserEmail"));
+            } catch(Exception e) {} // Would Throw Exception If Users are empty in UserTable
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static User getUserFromId(Integer userId) {
+        String getUserQuery = "SELECT * FROM [ProjectDB].[dbo].[User] WHERE UserId = ?";
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL); PreparedStatement ps = conn.prepareStatement(getUserQuery)) {
+            ps.setInt(1, userId);
+
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            try {
+                return new User(resultSet.getInt("UserId"), resultSet.getString("Username"), resultSet.getString("Password"), resultSet.getString("UserEmail"));
+            } catch(Exception e) {} // Would Throw Exception If Users are empty in UserTable
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static boolean checkIfUserNameAlreadyExists(String userName) {
-        String query = "SELECT COUNT(*) FROM [ProjectDB].[dbo].[User] WHERE Username = ?";
+        String query = "SELECT COUNT(*) AS 'Counter' FROM [ProjectDB].[dbo].[User] WHERE Username = ?";
         try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL);
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, userName);
 
             ResultSet resultSet = ps.executeQuery();
-            //resultSet.next();
+            resultSet.next();
             try {
-                if (resultSet.getInt(resultSet.getRow()) > 0) {
+                if (resultSet.getInt("Counter") > 0) {
                     return true;
                 }
             } catch(Exception e) {} // Would Throw Exception If Users are empty in UserTable
@@ -34,6 +65,11 @@ public class UserRepository {
 
     public static boolean addUserToUserTable(String userName, String userEmail, String userPassword) {
         int lastUserId = SQLUtils.countDataAmountFromTable("User", "*");
+
+        if(checkIfUserNameAlreadyExists(userName)) {
+            ConsoleUtils.writeConsoleLine("Username already exists. Please use another one.");
+            return false;
+        }
 
         String query = "INSERT INTO [ProjectDB].[dbo].[User] (UserId , Username, Password, UserEmail) VALUES (?, ?, ?, ?)";
 

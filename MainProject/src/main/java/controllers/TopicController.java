@@ -17,6 +17,8 @@ public class TopicController {
 
             if (chosenOption == 1)
                 TopicService.createTopic();
+            else if (chosenOption == 2)
+                TopicService.findTopic();
             else if (chosenOption == 3)
                 TopicService.showUserTopics();
             else if (chosenOption == 4)

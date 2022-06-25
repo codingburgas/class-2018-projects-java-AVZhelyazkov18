@@ -77,6 +77,7 @@ public class TopicRepository {
                 ConsoleUtils.writeConsoleLine("No topics exist.");
             }
         } catch (SQLException exception) {
+            exception.printStackTrace();
             ConsoleUtils.writeConsoleLine("Unsuccessful connection to database.");
         }
     }
@@ -111,9 +112,72 @@ public class TopicRepository {
 
             return topics;
         } catch (SQLException exception) {
+            exception.printStackTrace();
             ConsoleUtils.writeConsoleLine("Unsuccessful connection to database.");
         }
 
+        return null;
+    }
+
+    public static List<Topic> findTopicByTopicName(String topicName) {
+        String findQuery = "SELECT * FROM ForumPage WHERE ForumTitle LIKE '%' + ? + '%'";
+
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)){
+            PreparedStatement preparedStatement = conn.prepareStatement(findQuery);
+            preparedStatement.setString(1, topicName);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int count = 1;
+            List<Topic> topics = new ArrayList<>();
+            while (resultSet.next()) {
+                topics.add(new Topic(count, resultSet.getString("ForumTitle"),
+                        resultSet.getDate("ForumPageCreatedOn").toLocalDate(),
+                        resultSet.getBoolean("ForumPageSolved")));
+
+                ConsoleUtils.writeConsoleLine(count + ". " + resultSet.getString("ForumTitle") + " Solved: " +
+                        (resultSet.getBoolean("ForumPageSolved") ? "Yes" : "No") + " Created On: " +
+                        resultSet.getDate("ForumPageCreatedOn").toString());
+                count++;
+            }
+            if(count == 1)
+                ConsoleUtils.writeConsoleLine("Found no topics with the keyword " + topicName + ".");
+            else
+                return topics;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            ConsoleUtils.writeConsoleLine("Unsuccessful connection to database.");
+        }
+        return null;
+    }
+
+    public static List<Topic> findTopicByTopicNameAndTopicOwner(String topicOwnerName, String topicName) {
+        String findQuery = "SELECT * FROM ForumPage INNER JOIN [dbo].[User] ON [dbo].[User].[Username] = '?' WHERE ForumTitle LIKE '%?%'";
+
+        try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)){
+            PreparedStatement preparedStatement = conn.prepareStatement(findQuery);
+            preparedStatement.setString(1, topicOwnerName);
+            preparedStatement.setString(2, topicOwnerName);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int count = 1;
+            List<Topic> topics = new ArrayList<>();
+            while (resultSet.next()) {
+                topics.add(new Topic(count, resultSet.getString("ForumTitle"),
+                        resultSet.getDate("ForumPageCreatedOn").toLocalDate(),
+                        resultSet.getBoolean("ForumPageSolved")));
+
+                ConsoleUtils.writeConsoleLine(count + ". " + resultSet.getString("ForumTitle") + " Solved: " +
+                        (resultSet.getBoolean("ForumPageSolved") ? "Yes" : "No") + " Created On: " +
+                        resultSet.getDate("ForumPageCreatedOn").toString());
+                count++;
+            }
+            if(count == 1)
+                ConsoleUtils.writeConsoleLine("Found no topics with the keyword " + topicName + ".");
+            else
+                return topics;
+        } catch (SQLException exception) {
+            ConsoleUtils.writeConsoleLine("Unsuccessful connection to database.");
+        }
         return null;
     }
 }

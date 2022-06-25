@@ -59,7 +59,14 @@ public class FileService {
     }
 
     public static void saveUser() {
-        if(UserService.getCurrentLoggedInUser() == null) return;
+        if (UserService.getCurrentLoggedInUser() == null) {
+            File dataFileCheck = new File(getUsersProjectRootDirectory().toString() + "\\cookie.txt");
+
+            if(dataFileCheck.exists())
+                dataFileCheck.delete();
+            return;
+        }
+
 
         User user = UserService.getCurrentLoggedInUser();
 
