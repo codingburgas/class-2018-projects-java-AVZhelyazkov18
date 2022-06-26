@@ -1,8 +1,10 @@
 package repositories;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 import repositories.models.User;
+import services.UserService;
 import utils.ApplicationProperties;
 import utils.SQLUtils;
 import utils.ConsoleUtils;
@@ -71,15 +73,14 @@ public class UserRepository {
             return false;
         }
 
-        String query = "INSERT INTO [ProjectDB].[dbo].[User] (UserId , Username, Password, UserEmail) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO [ProjectDB].[dbo].[User] (Username, Password, UserEmail) VALUES (?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)) {
             PreparedStatement preparedStatement = conn.prepareStatement(query);
 
-            preparedStatement.setInt(1, lastUserId);
-            preparedStatement.setString(2, userName);
-            preparedStatement.setString(3, userPassword);
-            preparedStatement.setString(4, userEmail);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, userPassword);
+            preparedStatement.setString(3, userEmail);
 
             preparedStatement.executeUpdate();
 
@@ -91,6 +92,64 @@ public class UserRepository {
         return false;
     }
 
+    public static void showUserSettings(String userName) {
+        String query = "SELECT * FROM [ProjectDB].[dbo].[User] WHERE Username = ?";
+        try(Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)) {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, userName);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            Date dob = rs.getDate("UserDateOfBirth");
+            String phoneNumber = rs.getString("UserPhoneNumber");
+            String userEmail = rs.getString("UserEmail");
+
+
+
+            ConsoleUtils.writeConsoleLine("Username: " + userName);
+            ConsoleUtils.writeConsoleLine("Email: " + userEmail);
+            ConsoleUtils.writeConsoleLine("Password: ********");
+            if(dob == null)
+                ConsoleUtils.writeConsoleLine("Date Of Birth: N/A");
+            else
+                ConsoleUtils.writeConsoleLine("Date Of Birth: " + dob.toString());
+            if(phoneNumber == null || phoneNumber.trim() == "")
+                ConsoleUtils.writeConsoleLine("Phone Number: N/A");
+            else
+                ConsoleUtils.writeConsoleLine("Phone Number: " + phoneNumber);
+        } catch(SQLException exc) {
+            exc.printStackTrace();
+        }
+    }
+
+    public static void setUserData(String phoneNumber, Date DOB) {
+        String phoneNumberQuery = "UPDATE [ProjectDB].[dbo].[User] SET UserPhoneNumber = ? WHERE UserId = ?";
+        String DOBQuery = "UPDATE [ProjectDB].[dbo].[User] SET UserDateOfBirth = ? WHERE UserId = ?";
+        try(Connection conn = DriverManager.getConnection(ApplicationProperties.JDBC_URL)) {
+            if(phoneNumber != null) {
+                PreparedStatement ps = conn.prepareStatement(phoneNumberQuery);
+                ps.setString(1, phoneNumber);
+                ps.setInt(2, UserService.getCurrentLoggedInUser().getUserId());
+
+                Boolean success = ps.execute();
+
+                if(success)
+                    ConsoleUtils.writeConsoleLine("Phone Number has been changed.");
+            }
+            if(DOB != null) {
+                PreparedStatement ps = conn.prepareStatement(DOBQuery);
+                ps.setDate(1, DOB);
+                ps.setInt(2, UserService.getCurrentLoggedInUser().getUserId());
+
+                Boolean success = ps.execute();
+
+                if(success)
+                    ConsoleUtils.writeConsoleLine("Date Of Birth has been changed.");
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        }
+
+    }
     public static User loginUser(String username, String password) throws SQLException {
         String query = "SELECT * FROM [ProjectDB].[dbo].[User] WHERE Username = ? AND Password = ?";
 

@@ -8,6 +8,8 @@ import utils.ConsoleUtils;
 import java.util.List;
 import java.util.Scanner;
 
+import static controllers.UserController.userSettingsMenu;
+
 public class TopicController {
     public static void askUserTopicAction() {
         int chosenOption = 0;
